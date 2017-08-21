@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "settingdialog.cpp"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -13,8 +14,14 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::on_menuAction_quit_triggered()
+void MainWindow::on_menuFileQuit_triggered()
 {
     close();
     qApp->quit();
+}
+
+void MainWindow::on_menuOptionSetting_triggered()
+{
+    SettingDialog *dialog = new SettingDialog();
+    dialog->show();
 }

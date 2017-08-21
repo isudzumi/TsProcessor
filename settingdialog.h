@@ -2,6 +2,11 @@
 #define SETTINGDIALOG_H
 
 #include <QDialog>
+#include <QFileDialog>
+#include <QDebug>
+#include <QString>
+#include <QLineEdit>
+#include <QSettings>
 
 namespace Ui {
 class SettingDialog;
@@ -15,8 +20,27 @@ public:
     explicit SettingDialog(QWidget *parent = 0);
     ~SettingDialog();
 
+private slots:
+    void on_pushButton_TsSplitter_clicked();
+
+    void on_pushButton_BonTsDemux_clicked();
+
+    void on_pushButton_FAW_clicked();
+
+    void on_pushButton_DGIndex_clicked();
+
+    void on_pushButton_cciconv_clicked();
+
+    void on_buttonBox_accepted();
+
 private:
+    const QString ORG_NAME = "TsProcessor";
+    const QString APP_NAME = "TsProcessor";
     Ui::SettingDialog *ui;
+    QSettings *settings;
+    QString openFileDialog(QString program);
+    void writeConfig();
+    const QString softAry[5] = {"TsSplitter", "BonTsDemux", "FAW", "DGIndex", "cciconv"};
 };
 
 #endif // SETTINGDIALOG_H
