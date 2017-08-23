@@ -15,6 +15,11 @@ SettingDialog::SettingDialog(QWidget *parent) :
     ui->lineEdit_DGIndex->setText(settings->value("DGIndex").toString());
     ui->lineEdit_cciconv->setText(settings->value("cciconv").toString());
     settings->endGroup();
+
+    settings->beginGroup("Directory");
+    ui->lineEdit_tempfolder->setText(settings->value("tempDirectory").toString());
+    ui->lineEdit_outputfolder->setText(settings->value("outputDirectory").toString());
+    settings->endGroup();
 }
 
 SettingDialog::~SettingDialog()
