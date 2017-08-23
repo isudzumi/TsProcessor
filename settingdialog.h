@@ -33,12 +33,17 @@ private slots:
 
     void on_buttonBox_accepted();
 
+    void on_pushButton_tempfolder_clicked();
+
+    void on_pushButton_outputfolder_clicked();
+
 private:
     const QString ORG_NAME = "TsProcessor";
     const QString APP_NAME = "TsProcessor";
     Ui::SettingDialog *ui;
     QSettings *settings;
     QString openFileDialog(QString program);
+    QString openDirectoryDialog();
     void writeConfig();
     const QString softAry[5] = {"TsSplitter", "BonTsDemux", "FAW", "DGIndex", "cciconv"};
 };
