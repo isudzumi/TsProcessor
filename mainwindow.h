@@ -3,6 +3,8 @@
 
 #include <QMainWindow>
 #include <QMessageBox>
+#include <QDebug>
+#include "commandlineprocess.h"
 
 namespace Ui {
 class MainWindow;
@@ -20,8 +22,13 @@ private slots:
     void on_menuFileQuit_triggered();
     void on_menuOptionSetting_triggered();
 
+    void on_pushButton_execute_clicked();
+
+    void on_pushButton_TsFile_clicked();
+
 private:
     Ui::MainWindow *ui;
+    CommandlineProcess *process;
 };
 
 #endif // MAINWINDOW_H
