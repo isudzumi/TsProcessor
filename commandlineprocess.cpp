@@ -6,7 +6,8 @@ CommandlineProcess::CommandlineProcess(QString &fileName) :
     settings(new QSettings(QSettings::IniFormat, QSettings::UserScope, ORG_NAME, APP_NAME)),
     functionAry{{std::bind(&CommandlineProcess::TsSplitter, this),
                 std::bind(&CommandlineProcess::BonTsDemux, this),
-                std::bind(&CommandlineProcess::FAW, this)}},
+                std::bind(&CommandlineProcess::FAW, this),
+                std::bind(&CommandlineProcess::RemoveTempFile, this)}},
     itr(functionAry.cbegin())
 {
     settings->beginGroup("Directory");
@@ -112,6 +113,21 @@ void CommandlineProcess::FAW()
     process->start(program, arguments);
     if(!process->waitForFinished()){
         qWarning() << process->errorString();
+    }
+}
+
+void CommandlineProcess::RemoveTempFile()
+{
+    QDir *dir = new QDir(tempDir);
+    QStringList filter;
+    filter << "*.ts" << "*.aac";
+    dir->setNameFilters(filter);
+    dir->setFilter(QDir::Files | QDir::NoSymLinks);
+    QFileInfoList infoList = dir->entryInfoList();
+    if(infoList.isEmpty()) exit(1);
+    for(auto i : infoList)
+    {
+        dir->remove(i.fileName());
     }
 }
 

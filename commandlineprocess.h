@@ -39,8 +39,9 @@ private:
     void TsSplitter();
     void BonTsDemux();
     void FAW();
-    const std::array<std::function<void()>, 3> functionAry;
-    std::array<std::function<void()>, 3>::const_iterator itr;
+    void RemoveTempFile();
+    const std::array<std::function<void()>, 4> functionAry;
+    std::array<std::function<void()>, 4>::const_iterator itr;
 };
 
 inline QString CommandlineProcess::getInputFile()

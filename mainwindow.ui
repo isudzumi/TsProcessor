@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>472</width>
-    <height>300</height>
+    <height>390</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -74,6 +74,16 @@
     </property>
     <property name="text">
      <string>ファイルを選択</string>
+    </property>
+   </widget>
+   <widget class="QPlainTextEdit" name="logField">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>170</y>
+      <width>421</width>
+      <height>161</height>
+     </rect>
     </property>
    </widget>
   </widget>
