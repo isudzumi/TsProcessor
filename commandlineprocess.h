@@ -8,6 +8,7 @@
 #include <QProcess>
 #include <QString>
 #include <QStringList>
+#include <QTextStream>
 #include <functional>
 #include <array>
 
@@ -19,11 +20,10 @@ public:
     CommandlineProcess(QString& fileName);
     ~CommandlineProcess();
 
+    QProcess *process;
+
 public slots:
     void execute();
-
-private slots:
-    void onProcessOutput();
 
 private:
     const QString ORG_NAME = "TsProcessor";
@@ -32,7 +32,7 @@ private:
     QString inputFile;
     QString tempDir;
     QString outputDir;
-    QProcess *process;
+    //QProcess *process;
     QSettings *settings;
     inline QString getInputFile();
     inline void setInputFile(QString& fileName);

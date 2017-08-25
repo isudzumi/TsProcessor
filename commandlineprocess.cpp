@@ -14,7 +14,6 @@ CommandlineProcess::CommandlineProcess(QString &fileName) :
     tempDir   = settings->value("tempDirectory").toString();
     outputDir = settings->value("outputDirectory").toString();
     settings->endGroup();
-    QObject::connect(process, SIGNAL(readyReadStandardOutput()), this, SLOT(onProcessOutput()));
     QObject::connect(process, SIGNAL(finished(int)), this, SLOT(execute()));
 
     if(tempDir == "" || outputDir == "") exit(1);
@@ -137,10 +136,4 @@ void CommandlineProcess::execute()
     {
         (*itr)();
     }
-}
-
-void CommandlineProcess::onProcessOutput()
-{
-    QByteArray arr = process->readAllStandardOutput();
-    qDebug() << QString::fromLocal8Bit(arr);
 }
