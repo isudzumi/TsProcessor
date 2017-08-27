@@ -2,15 +2,16 @@
 #define COMMANDLINEPROCESS_H
 
 #include <QObject>
-#include <QSettings>
 #include <QFileDialog>
 #include <QFileInfoList>
 #include <QProcess>
 #include <QString>
 #include <QStringList>
 #include <QTextStream>
+#include <QDebug>
 #include <functional>
 #include <array>
+#include "readsettings.h"
 
 class CommandlineProcess : public QObject
 {
@@ -26,14 +27,12 @@ public slots:
     void execute();
 
 private:
-    const QString ORG_NAME = "TsProcessor";
-    const QString APP_NAME = "TsProcessor";
     const QString TEMP_FILE = "temp";
     QString inputFile;
     QString tempDir;
     QString outputDir;
-    //QProcess *process;
-    QSettings *settings;
+//    QProcess *process;
+    ReadSettings *settings;
     inline QString getInputFile();
     inline void setInputFile(QString& fileName);
     void TsSplitter();

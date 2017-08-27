@@ -4,8 +4,8 @@
 #include <QMainWindow>
 #include <QMessageBox>
 #include <QDebug>
-#include <QSettings>
 #include "commandlineprocess.h"
+#include "readsettings.h"
 
 namespace Ui {
 class MainWindow;
@@ -31,11 +31,9 @@ private slots:
     void on_pushButton_TsFile_clicked();
 
 private:
-    const QString ORG_NAME = "TsProcessor";
-    const QString APP_NAME = "TsProcessor";
     Ui::MainWindow *ui;
-    QSettings *settings;
     CommandlineProcess *process;
+    ReadSettings *settings;
 };
 
 #endif // MAINWINDOW_H

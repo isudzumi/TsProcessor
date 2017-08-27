@@ -3,29 +3,25 @@
 
 SettingDialog::SettingDialog(QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::SettingDialog),
-    settings(new QSettings(QSettings::IniFormat, QSettings::UserScope, ORG_NAME, APP_NAME))
+    settings(ReadSettings::getInstance()),
+    ui(new Ui::SettingDialog)
 {
     ui->setupUi(this);
 
-    settings->beginGroup("Software Path");
-    ui->lineEdit_TsSplitter->setText(settings->value("TsSplitter").toString());
-    ui->lineEdit_BonTsDemux->setText(settings->value("BonTsDemux").toString());
-    ui->lineEdit_FAW->setText(settings->value("FAW").toString());
-    ui->lineEdit_DGIndex->setText(settings->value("DGIndex").toString());
-    ui->lineEdit_cciconv->setText(settings->value("cciconv").toString());
-    settings->endGroup();
+    ui->lineEdit_TsSplitter->setText(settings->getSoftware(QStringLiteral("TsSplitter")));
+    ui->lineEdit_BonTsDemux->setText(settings->getSoftware(QStringLiteral("BonTsDemux")));
+    ui->lineEdit_FAW->setText(settings->getSoftware(QStringLiteral("FAW")));
+    ui->lineEdit_DGIndex->setText(settings->getSoftware(QStringLiteral("DGIndex")));
+    ui->lineEdit_cciconv->setText(settings->getSoftware(QStringLiteral("cciconv")));
 
-    settings->beginGroup("Directory");
-    ui->lineEdit_tempfolder->setText(settings->value("tempDirectory").toString());
-    ui->lineEdit_outputfolder->setText(settings->value("outputDirectory").toString());
-    settings->endGroup();
+    ui->lineEdit_tempfolder->setText(settings->getDirectory(QStringLiteral("tempDirectory")));
+    ui->lineEdit_outputfolder->setText(settings->getDirectory(QStringLiteral("outputDirectory")));
 }
 
 SettingDialog::~SettingDialog()
 {
+//    delete settings;
     delete ui;
-    delete settings;
 }
 
 void SettingDialog::on_pushButton_TsSplitter_clicked()
@@ -85,23 +81,14 @@ QString SettingDialog::openDirectoryDialog()
     return dirName;
 }
 
-void SettingDialog::writeConfig()
-{
-    settings->beginGroup("Software Path");
-    settings->setValue("TsSplitter", ui->lineEdit_TsSplitter->text());
-    settings->setValue("BonTsDemux", ui->lineEdit_BonTsDemux->text());
-    settings->setValue("FAW", ui->lineEdit_FAW->text());
-    settings->setValue("DGIndex", ui->lineEdit_DGIndex->text());
-    settings->setValue("cciconv", ui->lineEdit_cciconv->text());
-    settings->endGroup();
-
-    settings->beginGroup("Directory");
-    settings->setValue("tempDirectory", ui->lineEdit_tempfolder->text());
-    settings->setValue("outputDirectory", ui->lineEdit_outputfolder->text());
-    settings->endGroup();
-}
-
 void SettingDialog::on_buttonBox_accepted()
 {
-    writeConfig();
+    settings->setSoftware(QStringLiteral("TsSplitter"), ui->lineEdit_TsSplitter->text());
+    settings->setSoftware(QStringLiteral("BonTsDemux"), ui->lineEdit_BonTsDemux->text());
+    settings->setSoftware(QStringLiteral("FAW"), ui->lineEdit_FAW->text());
+    settings->setSoftware(QStringLiteral("DGIndex"), ui->lineEdit_DGIndex->text());
+    settings->setSoftware(QStringLiteral("cciconv"), ui->lineEdit_cciconv->text());
+
+    settings->setDirectory(QStringLiteral("tempDirectory"), ui->lineEdit_tempfolder->text());
+    settings->setDirectory(QStringLiteral("outputDirectory"), ui->lineEdit_outputfolder->text());
 }

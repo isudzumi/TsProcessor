@@ -1,24 +1,20 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "settingdialog.cpp"
-#include "commandlineprocess.cpp"
+#include "settingdialog.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow),
-    settings(new QSettings(QSettings::IniFormat, QSettings::UserScope, ORG_NAME, APP_NAME))
+    settings(ReadSettings::getInstance()),
+    ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
 
-    settings->beginGroup("history");
-    ui->lineEdit_TsFile->setText(settings->value("recentUse").toString());
-    settings->endGroup();
+    ui->lineEdit_TsFile->setText(settings->getHistory());
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
-    delete settings;
 }
 
 void MainWindow::on_menuFileQuit_triggered()
@@ -40,9 +36,7 @@ void MainWindow::on_pushButton_execute_clicked()
         process = new CommandlineProcess(inputFile);
         connect(process->process, SIGNAL(readyReadStandardOutput()), this, SLOT(insertToTextField()));
         process->execute();
-        settings->beginGroup("history");
-        settings->setValue("recentUse", inputFile);
-        settings->endGroup();
+        settings->setHistory(inputFile);
     }
 }
 

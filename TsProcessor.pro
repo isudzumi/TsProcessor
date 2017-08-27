@@ -27,12 +27,14 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     settingdialog.cpp \
     settingdialog.cpp \
-    commandlineprocess.cpp
+    commandlineprocess.cpp \
+    readsettings.cpp
 
 HEADERS  += mainwindow.h \
     settingdialog.h \
     settingdialog.h \
-    commandlineprocess.h
+    commandlineprocess.h \
+    readsettings.h
 
 FORMS    += mainwindow.ui \
     settingdialog.ui

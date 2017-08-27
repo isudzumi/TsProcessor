@@ -3,17 +3,15 @@
 CommandlineProcess::CommandlineProcess(QString &fileName) :
     inputFile(fileName),
     process(new QProcess()),
-    settings(new QSettings(QSettings::IniFormat, QSettings::UserScope, ORG_NAME, APP_NAME)),
+    settings(ReadSettings::getInstance()),
     functionAry{{std::bind(&CommandlineProcess::TsSplitter, this),
                 std::bind(&CommandlineProcess::BonTsDemux, this),
                 std::bind(&CommandlineProcess::FAW, this),
                 std::bind(&CommandlineProcess::RemoveTempFile, this)}},
     itr(functionAry.cbegin())
 {
-    settings->beginGroup("Directory");
-    tempDir   = settings->value("tempDirectory").toString();
-    outputDir = settings->value("outputDirectory").toString();
-    settings->endGroup();
+    tempDir   = settings->getDirectory("tempDirectory");
+    outputDir = settings->getDirectory("outputDirectory");
     QObject::connect(process, SIGNAL(finished(int)), this, SLOT(execute()));
 
     if(tempDir == "" || outputDir == "") exit(1);
@@ -24,17 +22,14 @@ CommandlineProcess::CommandlineProcess(QString &fileName) :
 CommandlineProcess::~CommandlineProcess()
 {
     delete process;
-    delete settings;
+//    delete settings;
 }
 
 void CommandlineProcess::TsSplitter()
 {
     ++itr;
 
-    qDebug() << "TsSplitter";
-    settings->beginGroup("Software Path");
-    QString program = settings->value("TsSplitter").toString();
-    settings->endGroup();
+    QString program = settings->getSoftware("TsSplitter");
 
     QString inputFile = this->getInputFile();
 
@@ -57,10 +52,7 @@ void CommandlineProcess::BonTsDemux()
 {
     ++itr;
 
-    qDebug() << "BonTsDemux";
-    settings->beginGroup("Software Path");
-    QString program = settings->value("BonTsDemux").toString();
-    settings->endGroup();
+    QString program = settings->getSoftware("BonTsDemux");
 
     QString outputFile= TEMP_FILE;
     QStringList arguments;
@@ -71,7 +63,6 @@ void CommandlineProcess::BonTsDemux()
                  "-delay" << "167" << "-start" << "-quit";
 
     QString inputFile = this->getInputFile();
-    qDebug() << inputFile;
     //change (QString)inputFile into output filename
     inputFile = tempDir + "/" + TEMP_FILE + ".ts";
     this->setInputFile(inputFile);
@@ -86,10 +77,7 @@ void CommandlineProcess::FAW()
 {
     ++itr;
 
-    qDebug() << "FAW";
-    settings->beginGroup("Software Path");;
-    QString program = settings->value("FAW").toString();
-    settings->endGroup();
+    QString program = settings->getSoftware("FAW");
 
     QDir *dir = new QDir(tempDir);
     QStringList filter;
@@ -102,8 +90,6 @@ void CommandlineProcess::FAW()
         exit(1);
     }
     QString inputFile = infoList.constFirst().fileName();
-
-    qDebug() << inputFile;
 
     QString outputFile = TEMP_FILE + ".wav";
     QStringList arguments;

@@ -6,7 +6,7 @@
 #include <QDebug>
 #include <QString>
 #include <QLineEdit>
-#include <QSettings>
+#include "readsettings.h"
 
 namespace Ui {
 class SettingDialog;
@@ -38,14 +38,10 @@ private slots:
     void on_pushButton_outputfolder_clicked();
 
 private:
-    const QString ORG_NAME = "TsProcessor";
-    const QString APP_NAME = "TsProcessor";
     Ui::SettingDialog *ui;
-    QSettings *settings;
     QString openFileDialog(QString program);
     QString openDirectoryDialog();
-    void writeConfig();
-    const QString softAry[5] = {"TsSplitter", "BonTsDemux", "FAW", "DGIndex", "cciconv"};
+    ReadSettings *settings;
 };
 
 #endif // SETTINGDIALOG_H
